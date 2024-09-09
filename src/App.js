@@ -17,7 +17,7 @@ function App() {
           <Route path="/categoria" element={<TelaCadCategoria/>}/>
           <Route path="/" element={<TelaMenu/>}/>
           <Route path="*" element={<Tela404/>}/>
-          </Routes>
+        </Routes>
       </BrowserRouter>
     </div>
   );

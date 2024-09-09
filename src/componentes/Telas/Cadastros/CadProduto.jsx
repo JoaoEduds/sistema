@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 
-export default function CadProduto() {
+export default function CadProduto(props) {
   return (
     <Form noValidate validated={true} onSubmit={true}>
       <Row className="mb-3">
@@ -98,7 +98,16 @@ export default function CadProduto() {
           feedbackType="invalid"
         />
       </Form.Group>
-      <Button type="submit">Submit form</Button>
+      <Row className='mt-2 mb-2'>
+        <Col md={1}>
+          <Button>Confirmar</Button>
+        </Col>
+        <Col md={{offset: 1}}>
+          <Button onClick={()=>{
+            props.setExibirTabela(true);
+          }}>Voltar</Button>
+        </Col>
+      </Row>
     </Form>
   );
 }

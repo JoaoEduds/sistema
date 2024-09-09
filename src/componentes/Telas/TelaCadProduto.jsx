@@ -1,8 +1,13 @@
 import CadProduto from "./Cadastros/CadProduto";
 import Pagina from "../layouts/Pagina";
 import { Alert } from "react-bootstrap";
+import { useState } from "react";
+import TabelaProdutos from "./Tabelas/TabelasProdutos";
+import { produtos } from "../../dados/mockProdutos"
 
 export default function TelaCadProduto(props){
+    const [exibirTabela, setExibirTabela] = useState(true);
+
     return (
         <div>
             <Pagina>
@@ -11,7 +16,11 @@ export default function TelaCadProduto(props){
                         Cadastro de Produto
                     </h2>
                 </Alert>
-                <CadProduto/>
+                {
+                    exibirTabela ?
+                        <TabelaProdutos listaDeProdutos={produtos} setExibirTabela={setExibirTabela}/> : 
+                        <CadProduto setExibirTabela={setExibirTabela}/>    
+                }
             </Pagina>
         </div>
     );
