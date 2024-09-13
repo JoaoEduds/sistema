@@ -19,7 +19,7 @@ export default function TelaCadProduto(props){
                 {
                     exibirTabela ?
                         <TabelaProdutos listaDeProdutos={produtos} setExibirTabela={setExibirTabela}/> : 
-                        <CadProduto setExibirTabela={setExibirTabela}/>    
+                        <CadProduto listaDeProdutos={produtos} setExibirTabela={setExibirTabela}/>    
                 }
             </Pagina>
         </div>
