@@ -5,7 +5,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
 
-export default function FormCadProdutos(props) {
+export default function CadProdutos(props) {
     const [produto, setProduto] = useState({
         codigo:0,
         descricao:"",
@@ -22,7 +22,7 @@ export default function FormCadProdutos(props) {
         const form = evento.currentTarget;
         if (form.checkValidity()){
             //cadastrar o produto
-            props.listaDeProdutos.push(produto);
+            props.setListaDeProdutos([...props.listaDeProdutos, produto]);
             //exibir tabela com o produto incluído
             props.setExibirTabela(true);
         }

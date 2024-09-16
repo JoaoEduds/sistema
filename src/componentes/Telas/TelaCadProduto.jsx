@@ -8,6 +8,8 @@ import { produtos } from "../../dados/mockProdutos"
 export default function TelaCadProduto(props){
     const [exibirTabela, setExibirTabela] = useState(true);
 
+    const [listaDeProdutos, setListaDeProdutos] = useState(produtos);
+
     return (
         <div>
             <Pagina>
@@ -18,8 +20,12 @@ export default function TelaCadProduto(props){
                 </Alert>
                 {
                     exibirTabela ?
-                        <TabelaProdutos listaDeProdutos={produtos} setExibirTabela={setExibirTabela}/> : 
-                        <CadProduto listaDeProdutos={produtos} setExibirTabela={setExibirTabela}/>    
+                        <TabelaProdutos listaDeProdutos={listaDeProdutos}
+                                        setListaDeProdutos={setListaDeProdutos} 
+                                        setExibirTabela={setExibirTabela}/> : 
+                        <CadProduto listaDeProdutos={listaDeProdutos}
+                                    setListaDeProdutos={setListaDeProdutos} 
+                                    setExibirTabela={setExibirTabela}/>    
                 }
             </Pagina>
         </div>
