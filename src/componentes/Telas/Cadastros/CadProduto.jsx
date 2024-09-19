@@ -3,9 +3,10 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function CadProdutos(props) {
+    
     const [produto, setProduto] = useState({
         codigo:0,
         descricao:"",
@@ -18,11 +19,25 @@ export default function CadProdutos(props) {
     });
     const [formValidado, setFormValidado] = useState(false);
 
+    useEffect(() => {
+        if (props.produtoEdita) {
+          setProduto(props.produtoEdita); 
+        }
+    }, [props.produtoEdita]);
+
     function manipularSubmissao(evento){
         const form = evento.currentTarget;
         if (form.checkValidity()){
-            //cadastrar o produto
-            props.setListaDeProdutos([...props.listaDeProdutos, produto]);
+            if (props.produtoEdita){ // verifica se o alterar foi selecionado pelo usuario, em caso true
+                const listaAtualizada = props.listaDeProdutos.map((item) =>{  // aqui ele está iterando toda a lista de produto na listaAtualizada, atraves da função .map
+                    return item.codigo === produto.codigo ? produto : item // aqui está verificando se o codigo existe, quando achar, ele substitui no mesmo codigo com as alterações
+                });
+                props.setListaDeProdutos(listaAtualizada); // aqui ele atualiza o estado da lista, depois de ser alterada
+            }
+            else{
+                //cadastrar o produto
+                props.setListaDeProdutos([...props.listaDeProdutos, produto]);
+            }
             //exibir tabela com o produto incluído
             props.setExibirTabela(true);
         }
@@ -31,7 +46,6 @@ export default function CadProdutos(props) {
         }
         evento.preventDefault();
         evento.stopPropagation();
-
     }
 
     function manipularMudanca(evento){

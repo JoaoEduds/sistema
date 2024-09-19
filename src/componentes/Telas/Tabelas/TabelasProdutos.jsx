@@ -22,8 +22,9 @@ export default function TabelaProdutos(props){
 
     }
 
-    function alterarProduto(produto){
-        
+    function alterarProduto(produto) {
+        props.setprodutoEdita(produto);
+        props.setExibirTabela(false);
     }
     
     return(
@@ -31,6 +32,7 @@ export default function TabelaProdutos(props){
             <Container>
                 <Button className="mb-3" variant="primary" onClick={()=>{
                     props.setExibirTabela(false);
+                    props.setprodutoEdita(false);
                 }}>Adicionar</Button>
                 <Table striped bordered hover>
                     <thead>

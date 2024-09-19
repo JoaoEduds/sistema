@@ -10,6 +10,8 @@ export default function TelaCadProduto(props){
 
     const [listaDeProdutos, setListaDeProdutos] = useState(produtos);
 
+    const [produtoEdita, setprodutoEdita] = useState(false);
+
     return (
         <div>
             <Pagina>
@@ -22,10 +24,12 @@ export default function TelaCadProduto(props){
                     exibirTabela ?
                         <TabelaProdutos listaDeProdutos={listaDeProdutos}
                                         setListaDeProdutos={setListaDeProdutos} 
-                                        setExibirTabela={setExibirTabela}/> : 
+                                        setExibirTabela={setExibirTabela}
+                                        setprodutoEdita={setprodutoEdita}/>: 
                         <CadProduto listaDeProdutos={listaDeProdutos}
                                     setListaDeProdutos={setListaDeProdutos} 
-                                    setExibirTabela={setExibirTabela}/>    
+                                    setExibirTabela={setExibirTabela}
+                                    produtoEdita={produtoEdita}/>  
                 }
             </Pagina>
         </div>
