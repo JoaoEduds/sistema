@@ -5,7 +5,7 @@ export const produtos = [
         "precoCusto":10.10,
         "precoVenda":20.00,
         "qtdEstoque":100,
-        "urlImagem":"",
+        "urlImagem":"https://images.tcdn.com.br/img/img_prod/765428/camiseta_100_poliester_branca_p_estampar_51_1_2ec8d1bfa8ec9faf2884c192958a04b9.png",
         "dataValidade":"31/12/2999"   
     },
     {

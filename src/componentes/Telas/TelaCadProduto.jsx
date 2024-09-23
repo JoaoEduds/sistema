@@ -10,7 +10,20 @@ export default function TelaCadProduto(props){
 
     const [listaDeProdutos, setListaDeProdutos] = useState(produtos);
 
-    const [produtoEdita, setprodutoEdita] = useState(false);
+    //const [produtoEdita, setprodutoEdita] = useState(false);
+
+    const [modoEdicao,setModoEdicao] = useState(false);
+    
+    const [produtoSelecionado,setProdutoSelecionado] = useState({
+        codigo:0,
+        descricao:"",
+        precoCusto:0,
+        precoVenda:0,
+        qtdEstoque:0,
+        urlImagem:"",
+        dataValidade:""
+    });
+
 
     return (
         <div>
@@ -25,11 +38,15 @@ export default function TelaCadProduto(props){
                         <TabelaProdutos listaDeProdutos={listaDeProdutos}
                                         setListaDeProdutos={setListaDeProdutos} 
                                         setExibirTabela={setExibirTabela}
-                                        setprodutoEdita={setprodutoEdita}/>: 
+                                        setModoEdicao={setModoEdicao}
+                                        setProdutoSelecionado={setProdutoSelecionado}/>: 
                         <CadProduto listaDeProdutos={listaDeProdutos}
                                     setListaDeProdutos={setListaDeProdutos} 
                                     setExibirTabela={setExibirTabela}
-                                    produtoEdita={produtoEdita}/>  
+                                    produtoSelecionado={produtoSelecionado}
+                                    setProdutoSelecionado={setProdutoSelecionado}
+                                    modoEdicao={modoEdicao}
+                                    setModoEdicao={setModoEdicao}/>  
                 }
             </Pagina>
         </div>
