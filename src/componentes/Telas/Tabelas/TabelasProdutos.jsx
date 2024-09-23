@@ -54,7 +54,7 @@ export default function TabelaProdutos(props){
                                         <td>{produto.precoCusto}</td>
                                         <td>{produto.precoVenda}</td>
                                         <td>{produto.qtdEstoque}</td>
-                                        <td><img style={{"width":"60px","height":"60px"}} 
+                                        <td><img style={{"width":'2rem',"height":'2rem'}} 
                                             scr={produto.urlImagems} alt="foto do produto"/></td>
                                         <td>{produto.dataValidade}</td>
                                         <td>
