@@ -28,9 +28,9 @@ export default function CadProdutos(props) {
     function manipularSubmissao(evento){
         const form = evento.currentTarget;
         if (form.checkValidity()){
-            if (props.produtoEdita){ // verifica se o alterar foi selecionado pelo usuario, em caso true
-                const listaAtualizada = props.listaDeProdutos.map((item) =>{  // aqui ele está iterando toda a lista de produto na listaAtualizada, atraves da função .map
-                    return item.codigo === produto.codigo ? produto : item // aqui está verificando se o codigo existe, quando achar, ele substitui no mesmo codigo com as alterações
+            if (props.produtoEdita){
+                const listaAtualizada = props.listaDeProdutos.map((item) =>{  
+                    return item.codigo === produto.codigo ? produto : item
                 });
                 props.setListaDeProdutos(listaAtualizada); // aqui ele atualiza o estado da lista, depois de ser alterada
             }
