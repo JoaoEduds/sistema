@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/sistema/static/css/main.d221dc40.css",
+    "main.js": "/sistema/static/js/main.0432b1a6.js",
+    "index.html": "/sistema/index.html",
+    "main.d221dc40.css.map": "/sistema/static/css/main.d221dc40.css.map",
+    "main.0432b1a6.js.map": "/sistema/static/js/main.0432b1a6.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d221dc40.css",
+    "static/js/main.0432b1a6.js"
+  ]
+}
