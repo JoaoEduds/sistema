@@ -4,6 +4,7 @@ import Tela404 from "./componentes/Telas/Tela404";
 import TelaCadProduto from "./componentes/Telas/TelaCadProduto";
 import TelaMenu from "./componentes/Telas/TelaMenu";
 import TelaCadCategoria from "./componentes/Telas/TelaCadCategoria";
+import TelaCadEntregador from "./componentes/Telas/TelaCadEntregador";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>  
           <Route path="/produto" element={<TelaCadProduto/>}/>
           <Route path="/categoria" element={<TelaCadCategoria/>}/>
+          <Route path="/entregador" element={<TelaCadEntregador/>}/>
           <Route path="/" element={<TelaMenu/>}/>
           <Route path="*" element={<Tela404/>}/>
         </Routes>

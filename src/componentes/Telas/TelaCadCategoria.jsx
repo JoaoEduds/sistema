@@ -1,8 +1,22 @@
 import CadCategoria from "./Cadastros/CadCategoria";
 import Pagina from "../layouts/Pagina";
 import { Alert } from "react-bootstrap";
+import { useState } from "react";
+import TabelaCategorias from "./Tabelas/TabelasCategorias";
+import { categorias } from "../../dados/mockCategorias";
 
 export default function TelaCadCategoria(props){
+    const [exibirTabela, setExibirTabela] = useState(true);
+
+    const [listaDeCategorias, setListaDeCategorias] = useState(categorias);
+
+    const [modoEdicao,setModoEdicao] = useState(false);
+    
+    const [categoriaSelecionada,setCategoriaSelecionada] = useState({
+        codigo:0,
+        descricao:"",
+    });
+    
     return (
         <div>
             <Pagina>
@@ -11,7 +25,21 @@ export default function TelaCadCategoria(props){
                         Cadastro de Categoria
                     </h2>
                 </Alert>
-                <CadCategoria/>
+                {
+                    exibirTabela ?
+                        <TabelaCategorias   listaDeCategorias={listaDeCategorias}
+                                            setListaDeCategorias={setListaDeCategorias} 
+                                            setExibirTabela={setExibirTabela}
+                                            setModoEdicao={setModoEdicao}
+                                            setCategoriaSelecionada={setCategoriaSelecionada}/>:
+                        <CadCategoria   listaDeCategorias={listaDeCategorias}
+                                        setListaDeCategorias={setListaDeCategorias} 
+                                        setExibirTabela={setExibirTabela}
+                                        categoriaSelecionada={categoriaSelecionada}
+                                        setCategoriaSelecionada={setCategoriaSelecionada}
+                                        modoEdicao={modoEdicao}
+                                        setModoEdicao={setModoEdicao}/>
+                }
             </Pagina>
         </div>
     );
