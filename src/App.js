@@ -17,6 +17,9 @@ function App() {
           <Route path="/produto" element={<TelaCadProduto/>}/>
           <Route path="/categoria" element={<TelaCadCategoria/>}/>
           <Route path="/entregador" element={<TelaCadEntregador/>}/>
+          <Route path="/cliente" element={<TelaCadCli />} />
+					<Route path="/fornecedor" element={<TelaCadastroFornecedor />} />
+					<Route path="/usuario" element={<TelaCadastroUsuario />} />
           <Route path="/" element={<TelaMenu/>}/>
           <Route path="*" element={<Tela404/>}/>
         </Routes>
