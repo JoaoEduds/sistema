@@ -1,5 +1,5 @@
 import { Alert } from "react-bootstrap";
-import CadCli from "./Formularios/CadCli";
+import CadCli from "./Cadastros/CadCli";
 import Pagina from '../layouts/Pagina'
 import { useState } from "react";
 import TabCliente from "./Tabelas/TabClientes";
