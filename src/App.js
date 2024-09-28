@@ -5,6 +5,9 @@ import TelaCadProduto from "./componentes/Telas/TelaCadProduto";
 import TelaMenu from "./componentes/Telas/TelaMenu";
 import TelaCadCategoria from "./componentes/Telas/TelaCadCategoria";
 import TelaCadEntregador from "./componentes/Telas/TelaCadEntregador";
+import TelaCadCli from "./componentes/Telas/TelaCadCli";
+import TelaCadastroUsuario from "./componentes/Telas/TelaCadastroUsuario";
+import TelaCadastroFornecedor from "./componentes/Telas/TelaCadastroFornecedor";
 
 function App() {
   return (
