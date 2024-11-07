@@ -1,25 +1,63 @@
-import { Button } from 'react-bootstrap';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Row from 'react-bootstrap/Row';
-import { useState } from 'react';
+import { Button, Spinner, Col, Form, InputGroup, Row  } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import { consultarCategoria } from '../../../servicos/servicoCategoria';
+import toast, { Toaster } from 'react-hot-toast'; {}
+import { gravarProduto } from '../../../servicos/servicoProduto'
 
 export default function CadProdutos(props) {
     
     const [produto, setProduto] = useState(props.produtoSelecionado);
     const [formValidado, setFormValidado] = useState(false);
+    const [categorias, setCategorias] = useState([]);
+    const [temCategorias, setTemCategorias] = useState(false);
+
+    useEffect(()=>{
+        consultarCategoria().then((resultado)=>{
+            if(Array.isArray(resultado)){
+                setCategorias(resultado);
+                setTemCategorias(true);
+            }else{
+                toast.error("Não foi possivel conectar");
+            }
+        }).catch((erro)=>{
+            setTemCategorias(false);
+            toast.error("Não foi possivel conectar");
+        });
+    },[]);//didMount
+
+    function selecionarCategoria(evento){
+        setProduto({...produto,
+            categoria:{
+                codigo: evento.currentTarget.value
+            }
+        });
+    }
 
     function manipularSubmissao(evento){
         const form = evento.currentTarget;
         if (form.checkValidity()){
             if(!props.modoEdicao){
                 //cadastrar o produto
-                props.setListaDeProdutos([...props.listaDeProdutos, produto]);
+                gravarProduto(produto)
+                .then((resultado)=>{
+                    if(resultado.status){
+                        props.setExibirTabela(true)
+                    }
+                    else{
+                        toast
+                    }
+                })
                 //exibir tabela com o produto incluído
                 props.setExibirTabela(true);
             }
             else{
+                //editar o produto
+                //altera a ordem dos registros
+                //props.setListaDeProdutos([...props.listaDeProdutos.filter(()=>{
+                //        return Item.codigo !== produto.codigo;
+                //    }
+                //), produto]);
+                //não altera a lista de registro
                 props.setListaDeProdutos(props.listaDeProdutos.map((item)=>{
                     if(item.codigo !== produto.codigo)
                         return item;
@@ -167,10 +205,30 @@ export default function CadProdutos(props) {
                     />
                     <Form.Control.Feedback type="invalid">Por favor, informe a data de validade do produto!</Form.Control.Feedback>
                 </Form.Group>
+                <Form.Group as={Col} md={7}>
+                    <Form.Label>Categoria</Form.Label>
+                    <Form.Select id='categoria' 
+                                 nome='categoria'
+                                 onChange={selecionarCategoria}>
+                        {//criar em tempo de execução as categorias existentes no banco de dados
+                            categorias.map((categoria)=>{
+                                return <option value={categoria.codigo}>
+                                            {categoria.descricao}
+                                        </option>
+                            })
+                        }
+                    </Form.Select>
+                </Form.Group>
+                <Form.Group as={Col} md={1}>
+                    {
+                        !temCategorias ? <Spinner className='mt-4' animation="border" variant="success" />
+                        : ""
+                    }
+                </Form.Group>
             </Row>
             <Row className='mt-2 mb-2'>
                 <Col md={1}>
-                    <Button type="submit">{props.modoEdicao ? "Alterar":"Confirmar"}</Button>
+                    <Button type="submit" disabled={!temCategorias}>{props.modoEdicao ? "Alterar":"Confirmar"}</Button>
                 </Col>
                 <Col md={{offset:1}}>
                     <Button onClick={()=>{
@@ -178,6 +236,7 @@ export default function CadProdutos(props) {
                     }}>Voltar</Button>
                 </Col>
             </Row>
+            <Toaster position="top-right" reverseOrder={false}/>
         </Form>
     );
 }

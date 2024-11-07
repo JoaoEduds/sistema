@@ -1,19 +1,17 @@
 import CadProduto from "./Cadastros/CadProduto";
 import Pagina from "../layouts/Pagina";
 import { Alert } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TabelaProdutos from "./Tabelas/TabelasProdutos";
-import { produtos } from "../../dados/mockProdutos"
+import { consultarProduto } from "../../servicos/servicoProduto";
+//import { produtos } from "../../dados/mockProdutos"
 
 export default function TelaCadProduto(props){
     const [exibirTabela, setExibirTabela] = useState(true);
-
-    const [listaDeProdutos, setListaDeProdutos] = useState(produtos);
-
+    const [listaDeProdutos, setListaDeProdutos] = useState([]);
     //const [produtoEdita, setprodutoEdita] = useState(false);
-
     const [modoEdicao,setModoEdicao] = useState(false);
-    
+    //const [produto,setProduto] = useState([])
     const [produtoSelecionado,setProdutoSelecionado] = useState({
         codigo:0,
         descricao:"",
@@ -21,9 +19,16 @@ export default function TelaCadProduto(props){
         precoVenda:0,
         qtdEstoque:0,
         urlImagem:"",
-        dataValidade:""
+        dataValidade:"",
+        categoria: {}
     });
 
+    useEffect(()=>{
+        consultarProduto().then((lista)=>{
+            setListaDeProdutos(lista);
+        })
+        
+    },[])
 
     return (
         <div>
