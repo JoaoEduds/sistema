@@ -1,6 +1,4 @@
-import { Button, Spinner, Col, Form, InputGroup,
-    Row
-} from 'react-bootstrap';
+import { Button, Spinner, Col, Form, InputGroup, Row} from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { consultarCategoria } from '../../../servicos/servicoCategoria';
 import { gravarProduto } from '../../../servicos/servicoProduto';
@@ -40,7 +38,6 @@ function selecionarCategoria(evento){
 function manipularSubmissao(evento) {
    const form = evento.currentTarget;
    if (form.checkValidity()) {
-
        if (!props.modoEdicao) {
            //cadastrar o produto
            gravarProduto(produto)
@@ -84,7 +81,6 @@ function manipularSubmissao(evento) {
            });
            props.setExibirTabela(true);
        }
-
    }
    else {
        setFormValidado(true);

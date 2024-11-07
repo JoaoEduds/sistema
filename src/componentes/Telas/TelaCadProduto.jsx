@@ -1,18 +1,17 @@
-import CadProduto from "./Cadastros/CadProduto";
-import Pagina from "../layouts/Pagina";
 import { Alert } from "react-bootstrap";
+import FormCadProdutos from "./Formularios/FormCadProduto";
+import Pagina from "../layouts/Pagina";
 import { useEffect, useState } from "react";
 import TabelaProdutos from "./Tabelas/TabelasProdutos";
+//import { produtos } from "../../dados/mockProdutos";
 import { consultarProduto } from "../../servicos/servicoProduto";
-//import { produtos } from "../../dados/mockProdutos"
 
-export default function TelaCadProduto(props){
+export default function TelaCadastroProduto(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
     const [listaDeProdutos, setListaDeProdutos] = useState([]);
-    //const [produtoEdita, setprodutoEdita] = useState(false);
-    const [modoEdicao,setModoEdicao] = useState(false);
-    //const [produto,setProduto] = useState([])
-    const [produtoSelecionado,setProdutoSelecionado] = useState({
+    const [modoEdicao, setModoEdicao] = useState(false);
+    //const [produtos, setProdutos] = useState([]);
+    const [produtoSelecionado, setProdutoSelecionado] = useState({
         codigo:0,
         descricao:"",
         precoCusto:0,
@@ -21,19 +20,19 @@ export default function TelaCadProduto(props){
         urlImagem:"",
         dataValidade:"",
         categoria: {}
+
     });
 
     useEffect(()=>{
         consultarProduto().then((lista)=>{
             setListaDeProdutos(lista);
-        })
-        
-    },[])
-
+        });
+    },[]); //listaVazia -> didMount
+   
     return (
         <div>
             <Pagina>
-                <Alert class="alert alert-success" role="alert">
+                |<Alert className="mt-02 mb-02 success text-center" variant="success">
                     <h2>
                         Cadastro de Produto
                     </h2>
@@ -44,16 +43,19 @@ export default function TelaCadProduto(props){
                                         setListaDeProdutos={setListaDeProdutos} 
                                         setExibirTabela={setExibirTabela}
                                         setModoEdicao={setModoEdicao}
-                                        setProdutoSelecionado={setProdutoSelecionado}/>: 
-                        <CadProduto listaDeProdutos={listaDeProdutos}
-                                    setListaDeProdutos={setListaDeProdutos} 
-                                    setExibirTabela={setExibirTabela}
-                                    produtoSelecionado={produtoSelecionado}
-                                    setProdutoSelecionado={setProdutoSelecionado}
-                                    modoEdicao={modoEdicao}
-                                    setModoEdicao={setModoEdicao}/>  
+                                        setProdutoSelecionado={setProdutoSelecionado} /> :
+                        <FormCadProdutos listaDeProdutos={listaDeProdutos}
+                                         setListaDeProdutos={setListaDeProdutos}
+                                         setExibirTabela={setExibirTabela}
+                                         produtoSelecionado={produtoSelecionado}
+                                         setProdutoSelecionado={setProdutoSelecionado}
+                                         modoEdicao={modoEdicao}
+                                         setModoEdicao={setModoEdicao}
+
+                                         />
                 }
             </Pagina>
         </div>
     );
+
 }
