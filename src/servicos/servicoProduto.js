@@ -1,6 +1,6 @@
 const urlBase = 'http://localhost:4000/produto';
 
-export async function gravar(produto) {
+export async function gravarProduto(produto) {
     const resposta = fetch(urlBase,{
         'method':"POST",
         'headers':{
@@ -11,7 +11,7 @@ export async function gravar(produto) {
     const resultado = await resposta.json;
     return resultado;
 }
-export async function alterar(produto) {
+export async function alterarProduto(produto) {
     const resposta = fetch(urlBase,{
         'method':"PUT",
         'headers':{
@@ -22,7 +22,7 @@ export async function alterar(produto) {
     const resultado = await resposta.json;
     return resultado;
 }
-export async function excluir(produto) {
+export async function excluirProduto(produto) {
     const resposta = fetch(urlBase + "/" + produto.codigo,{
         'method':"DELETE"
     });
