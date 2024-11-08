@@ -24,8 +24,8 @@ export async function alterarProduto(produto){
     return resultado;
 }
 
-export async function excluirProduto(produto){
-    const resposta = await fetch(urlBase + "/" + produto.codigo,{
+export async function deletarProduto(codigo){
+    const resposta = await fetch(urlBase + '/' + codigo,{
         'method':"DELETE",
     });
     const resultado = await resposta.json();

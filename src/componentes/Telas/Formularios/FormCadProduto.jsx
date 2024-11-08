@@ -54,16 +54,10 @@ export default function FormCadProdutos(props) {
                 });
             }
             else {
-                /*props.setListaDeProdutos(props.listaDeProdutos.map((item) => {
-                    if (item.codigo !== produto.codigo)
-                        return item
-                    else
-                        return produto
-                }));*/
                 alterarProduto(produto)
                 .then((resultado)=>{
                     if (resultado.status){
-                        //exibir tabela com o produto alterado
+                        //exibir tabela com o produto incluído
                         props.setModoEdicao(false);
                         props.setProdutoSelecionado({
                             codigo: 0,
@@ -76,11 +70,15 @@ export default function FormCadProdutos(props) {
                         });
                         //voltar para o modo de inclusão
                         props.setExibirTabela(true);
+                        toast.success('Produto alterado com sucesso');
+                        window.alert("Produto alterado com sucesso");
                     }
                     else{
                         toast.error(resultado.mensagem);
+                        window.alert(resultado.mensagem);
                     }
                 });
+                
             }
         }
         else {
