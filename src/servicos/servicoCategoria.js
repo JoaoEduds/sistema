@@ -1,38 +1,41 @@
-const urlBase = 'http://localhost:4000/categoria';
+const urlBase = 'https://bcc-backend-lp-2.vercel.app/categorias';
 
-export async function gravar(categoria) {
-    const resposta = fetch(urlBase,{
+export async function gravarCategoria(categoria){
+    const resposta = await fetch(urlBase,{
         'method':"POST",
-        'headers':{
+        'headers': { 
             'Content-Type':"application/json"
         },
         'body': JSON.stringify(categoria)
     });
-    const resultado = await resposta.json;
+    const resultado = await resposta.json();
     return resultado;
 }
-export async function alterar(categoria) {
-    const resposta = fetch(urlBase,{
+
+export async function alterarCategoria(categoria){
+    const resposta = await fetch(urlBase,{
         'method':"PUT",
-        'headers':{
+        'headers': { 
             'Content-Type':"application/json"
         },
         'body': JSON.stringify(categoria)
     });
-    const resultado = await resposta.json;
+    const resultado = await resposta.json();
     return resultado;
 }
-export async function excluir(categoria) {
-    const resposta = fetch(urlBase + "/" + categoria.codigo,{
-        'method':"DELETE"
+
+export async function excluirCategoria(categoria){
+    const resposta = await fetch(urlBase + "/" + categoria.codigo,{
+        'method':"DELETE",
     });
-    const resultado = await resposta.json;
+    const resultado = await resposta.json();
     return resultado;
 }
+
 export async function consultarCategoria() {
-    const resposta = fetch(urlBase,{
-        'method':"GET",
+    const resposta = await fetch(urlBase,{
+        'method':"GET"
     });
-    const resultado = await resposta.json;
+    const resultado = await resposta.json();
     return resultado;
 }
