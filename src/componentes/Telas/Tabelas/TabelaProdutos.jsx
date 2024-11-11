@@ -47,11 +47,12 @@ export default function TabelaProdutos(props) {
                         <th>Qtd. em estoque</th>
                         <th>Imagem</th>
                         <th>Validade</th>
+                        <th>Categoria</th>
                         <th>Ações</th>
                     </thead>
                     <tbody>
                         {
-                            props.listaDeProdutos?.map((produto) => {
+                            props?.listaDeProdutos?.map((produto) => {
                                 return (
                                     <tr>
                                         <td>{produto.codigo}</td>
@@ -63,7 +64,8 @@ export default function TabelaProdutos(props) {
                                                           "width":"40px",
                                                           "height":"40px"
                                                         }} src={produto.urlImagem} alt="foto do produto" /></td>
-                                        <td>{produto.dataValidade}</td>
+                                        <td>{new Date(produto.dataValidade).toLocaleDateString()}</td>
+                                        <td>{produto.categoria.descricao}</td>
                                         <td>
                                             <Button onClick={()=>{
                                                 editarProduto(produto);

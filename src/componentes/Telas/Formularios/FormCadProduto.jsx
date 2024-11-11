@@ -201,6 +201,7 @@ export default function FormCadProdutos(props) {
                         type="text"
                         id="dataValidade"
                         name="dataValidade"
+                        //disabled={props.modoEdicao}
                         value={produto.dataValidade}
                         onChange={manipularMudanca}
                     />
