@@ -13,15 +13,16 @@ export default function TabelaProdutos(props) {
     function excluirProduto(produto){
         if(window.confirm("Deseja realmente excluir o produto " + produto.descricao)){
             //abordagem utilizando a sintaxe permitida da linguagem
-            deletarProduto(produto.codigo)
+            deletarProduto(produto)
             .then((resultado)=>{
                 if (resultado.status){
-                    //exibir tabela com o produto incluído
-                    toast.success('Produto excluido com sucesso');
-                    window.alert("Produto excluido com sucesso");
+                    props.setListaDeProdutos(props.listaDeProdutos.filter(
+                        (item)=>{
+                            return item.codigo != produto.codigo
+                        }
+                    ));
                 }
                 else{
-                    toast.error(resultado.mensagem);
                     window.alert(resultado.mensagem);
                 }
             });

@@ -55,10 +55,13 @@ export default function FormCadProdutos(props) {
             }
             else {
                 alterarProduto(produto)
-                .then((resultado)=>{
-                    if (resultado.status){
-                        //exibir tabela com o produto incluído
+                .then((resultado) => {
+                    if (resultado.status) {
+                        props.setListaDeProdutos(props.listaDeProdutos.map((item) => 
+                            item.codigo !== produto.codigo ? item : produto
+                        ));
                         props.setModoEdicao(false);
+                        props.setExibirTabela(true);
                         props.setProdutoSelecionado({
                             codigo: 0,
                             descricao: "",
@@ -67,18 +70,13 @@ export default function FormCadProdutos(props) {
                             qtdEstoque: 0,
                             urlImagem: "",
                             dataValidade: ""
-                        });
-                        //voltar para o modo de inclusão
-                        props.setExibirTabela(true);
-                        toast.success('Produto alterado com sucesso');
-                        window.alert("Produto alterado com sucesso");
+                        });                     
                     }
-                    else{
+                    else {
                         toast.error(resultado.mensagem);
-                        window.alert(resultado.mensagem);
                     }
                 });
-                
+                //voltar para o modo de inclusão
             }
         }
         else {
@@ -86,7 +84,6 @@ export default function FormCadProdutos(props) {
         }
         evento.preventDefault();
         evento.stopPropagation();
-
     }
 
     function manipularMudanca(evento) {
@@ -237,7 +234,17 @@ export default function FormCadProdutos(props) {
                 </Col>
                 <Col md={{ offset: 1 }}>
                     <Button onClick={() => {
+                        props.setModoEdicao(false);
                         props.setExibirTabela(true);
+                        props.setProdutoSelecionado({
+                            codigo: 0,
+                            descricao: "",
+                            precoCusto: 0,
+                            precoVenda: 0,
+                            qtdEstoque: 0,
+                            urlImagem: "",
+                            dataValidade: ""
+                        }); 
                     }}>Voltar</Button>
                 </Col>
             </Row>
