@@ -16,7 +16,7 @@ export default function TabelaProdutos(props) {
 
     function editarProduto(produto){
         props.setModoEdicao(true);
-        props.setProdutoSelecionado(produto)
+        props.setProdutoSelecionado(produto);
         props.setExibirTabela(false);
     }
 

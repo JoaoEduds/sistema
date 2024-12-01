@@ -18,7 +18,7 @@ export async function alterarProduto(produto) {
         "headers": {
             "Content-Type": "application/json"
         },
-        "body": JSON.stringify(produto)
+        "body": JSON.stringify({...produto, dataValidade: new Date(produto.dataValidade).toLocaleDateString()})
     });
     const resultado = await resposta.json();
     return resultado;

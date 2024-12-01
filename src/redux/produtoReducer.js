@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { consultarProduto, excluirProduto } from "../servicos/servicoProduto";
+import { consultarProduto, excluirProduto, gravarProduto, alterarProduto } from "../servicos/servicoProduto";
 
 import ESTADO from "./estados";
 
@@ -56,6 +56,53 @@ export const apagarProduto = createAsyncThunk('apagarProduto', async (produto)=>
     } 
 });
 
+export const incluirProduto = createAsyncThunk('incluirProduto', async (produto)=>{
+    //Privisibildade de comportamento ao  que sera retornado para a aplicação (redutor)
+    //status e mensagem 
+    //sucesso o cod do produto gerado na inclusao
+    try {
+        const resultado = await gravarProduto(produto);
+        if(resultado.status){
+            produto.codigo = resultado.codigo;
+            return{
+                "status":resultado.status,
+                "mensgem":resultado.mensagem,
+                "produto":produto
+            } 
+        }else{
+            return{
+                "status":resultado.status,
+                "mensgem":resultado.mensagem,
+            };
+        }
+    } catch (error) {
+        return{
+            "status":false,
+            "mensgem":"Não foi possivel se comunicar com o backend: "+error.message
+        }
+    }
+});
+
+export const atualizarProduto = createAsyncThunk('atualizarProduto', async (produto)=>{
+    //Privisibildade de comportamento ao  que sera retornado para a aplicação (redutor)
+    //status e mensagem 
+    //sucesso o cod do produto gerado na inclusao
+    try {
+        const resultado = await alterarProduto(produto);
+        produto.codigo = resultado.codigo;
+        return{
+            "status":resultado.status,
+            "mensgem":resultado.mensagem,
+            "produto":produto
+        }
+    } catch (error) {
+        return{
+            "status":false,
+            "mensgem":"Não foi possivel se comunicar com o backend: "+error.message
+        }
+    }
+});
+
 const produtoReducer = createSlice({
     name:'produto',
     initialState:{
@@ -98,11 +145,44 @@ const produtoReducer = createSlice({
             }else{
                 state.estado=ESTADO.ERRO;
             }
-            //altera a lista de produtos?
         })
         .addCase(apagarProduto.rejected,(state,action)=>{
             state.estado=ESTADO.ERRO;
-            state.mensagem=""//action.payload.mensagem;
+            state.mensagem=action.payload.mensagem;
+        })
+        .addCase(incluirProduto.pending,(state,action)=>{
+            state.estado=ESTADO.PENDENTE;
+            state.mensagem="Processando a requisição (incluir produto no backend)";
+        })
+        .addCase(incluirProduto.fulfilled,(state,action)=>{
+            if(action.payload.status){
+                state.estado = ESTADO.OCIOSO;
+                state.mensagem = action.payload.mensagem;
+                state.listaDeProdutos.push(action.payload.produto);
+            }else{
+                state.estado = ESTADO.ERRO;
+                state.mensagem = action.payload.mensagem;
+            }
+        })
+        .addCase(incluirProduto.rejected,(state,action)=>{
+            state.estado=ESTADO.ERRO;
+            state.mensagem=action.payload.mensagem;
+        })
+        .addCase(atualizarProduto.pending,(state,action)=>{
+            state.estado=ESTADO.PENDENTE;
+            state.mensagem="Processando a requisição (atualizar produto no backend)";
+        }).addCase(atualizarProduto.fulfilled,(state,action)=>{
+            if(action.payload.status){
+            state.estado = ESTADO.OCIOSO;
+            state.mensagem = action.payload.mensgem;
+            state.listaDeProdutos = state.listaDeProdutos.map((item)=>item.codigo === action.payload.produto.codigo ? action.payload.produto : item);
+            }else{
+                state.estado=ESTADO.ERRO;
+                state.mensagem=action.payload.mensgem;
+            }
+        }).addCase(atualizarProduto.rejected,(state,action)=>{
+            state.estado=ESTADO.ERRO;
+            state.mensagem=action.payload.mensagem;
         })
     }
 });
