@@ -22,12 +22,7 @@ export default function TelaCadastroProduto(props) {
 
     });
 
-    useEffect(()=>{
-        consultarProduto().then((lista)=>{
-            setListaDeProdutos(lista);
-        });
-    },[]); //listaVazia -> didMount
-   
+  
     return (
         <div>
             <Pagina>
@@ -45,9 +40,7 @@ export default function TelaCadastroProduto(props) {
                                          produtoSelecionado={produtoSelecionado}
                                          setProdutoSelecionado={setProdutoSelecionado}
                                          modoEdicao={modoEdicao}
-                                         setModoEdicao={setModoEdicao}
-
-                                         />
+                                         setModoEdicao={setModoEdicao} />
                 }
             </Pagina>
         </div>

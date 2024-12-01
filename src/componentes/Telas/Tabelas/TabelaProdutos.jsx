@@ -1,16 +1,15 @@
 import { Alert, Button, Container, Spinner, Table } from "react-bootstrap";
-import {deletarProduto} from '../../../servicos/servicoProduto';
-import toast, {Toaster} from 'react-hot-toast';
 import { useSelector, useDispatch } from "react-redux";
 import { buscarProdutos, apagarProduto } from "../../../redux/produtoReducer";
 import { useEffect } from "react";
+
 import ESTADO from "../../../redux/estados";
 
 export default function TabelaProdutos(props) {
     //recuperar o estado da aplicação / fatia produto
-    const[estado, mensagem, listaDeProdutos] = useSelector(state=>state.produto);
-
+    const {estado, mensagem, listaDeProdutos} = useSelector(state => state.produto);
     const despachante = useDispatch();
+    
     useEffect(()=>{
         despachante(buscarProdutos());
     },[despachante]); //ciclo de vida de atualização do componente
@@ -21,25 +20,27 @@ export default function TabelaProdutos(props) {
         props.setExibirTabela(false);
     }
 
-    function excluirProduto(produto){
+    function excluirProdutoFrontEnd(produto){
         if(window.confirm("Deseja realmente excluir o produto " + produto.descricao)){
-            //abordagem utilizando a sintaxe permitida da linguagem
             despachante(apagarProduto(produto));
         }
     }
-
-    if(estado == ESTADO.PENDENTE){
+    if (estado === ESTADO.PENDENTE){
         return (
             <div>
                 <Spinner animation="border" role="status"></Spinner>
-                <Alert variant="primary" >{mensagem}</Alert>
+                <Alert variant="primary">{ mensagem }</Alert>
             </div>
         );
-    }else if(estado == ESTADO.ERRO){
-        <div>
-            <Alert  variant="danger">{mensagem}</Alert>
-        </div>
-    } else if(estado == ESTADO.OCIOSO){
+    }
+    else if (estado === ESTADO.ERRO){
+        return(
+            <div>
+                <Alert variant="danger">{ mensagem }</Alert>
+            </div>
+        );
+    }
+    else if (ESTADO.OCIOSO) {
         return (
             <>
                 <Container>
@@ -72,8 +73,8 @@ export default function TabelaProdutos(props) {
                                             <td>{produto.precoVenda}</td>
                                             <td>{produto.qtdEstoque}</td>
                                             <td><img style={{
-                                                              "width":"40px",
-                                                              "height":"40px"
+                                                            "width":"40px",
+                                                            "height":"40px"
                                                             }} src={produto.urlImagem} alt="foto do produto" /></td>
                                             <td>{new Date(produto.dataValidade).toLocaleDateString()}</td>
                                             <td>{produto.categoria.descricao}</td>
@@ -86,7 +87,7 @@ export default function TabelaProdutos(props) {
                                                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                                                     </svg>
                                                 </Button> <Button onClick={ ()=> {
-                                                    excluirProduto(produto);
+                                                    excluirProdutoFrontEnd(produto);
                                                 }} variant="danger">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
                                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
@@ -104,6 +105,5 @@ export default function TabelaProdutos(props) {
                 </Container>
             </>
         );
-    }//fim do estado ocioso
-    
+    } // fim else if ESTADO.OCIOSO
 }
