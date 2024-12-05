@@ -1,5 +1,5 @@
 import { Alert, Button, Spinner, Col, Form, InputGroup, Row } from 'react-bootstrap';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { consultarCategoria } from '../../../servicos/servicoCategoria';
 import { useSelector,useDispatch } from 'react-redux';
 import { incluirProduto, atualizarProduto } from '../../../redux/produtoReducer';
@@ -12,8 +12,7 @@ export default function FormCadProdutos(props) {
     const [categorias, setCategorias] = useState([]);
     const [temCategorias, setTemCategorias] = useState(false);
     const [mensagemExibida, setMensagemExibida] = useState("");
-    const {estado, mensagem, listaDeProdutos} = useSelector((state)=>state.produto);
-    const elementoDataValidade = useRef();
+    const {estado, mensagem} = useSelector((state)=>state.produto);
     const despachante = useDispatch();
 
     //Ao usar Redux, as categorias não serão recuperadas diretamente do backend (camada de serviço) e sim
@@ -33,7 +32,6 @@ export default function FormCadProdutos(props) {
         setTemCategorias(false);
         toast.error("Não foi possível carregar as categorias");
     });
-    
     },[]); //didMount
 
     function selecionarCategoria(evento){
@@ -80,7 +78,7 @@ export default function FormCadProdutos(props) {
                     dataValidade: ""
                 });
                 props.setExibirTabela(true);
-            },5000);            
+            },3000);
         }
     }else {
         setFormValidado(true);
@@ -223,7 +221,7 @@ export default function FormCadProdutos(props) {
                                 type="date"
                                 id="dataValidade"
                                 name="dataValidade"
-                                value={props.modoEdicao ? produto.dataValidade.substr(0,10) : ""}
+                                //value={props.modoEdicao ? produto.dataValidade.substr(0,10) : " "}
                                 onChange={(evento)=>{
                                     const data = new Date(evento.target.value);
                                     setProduto({...produto, dataValidade: data.toLocaleDateString('pt-br')});
@@ -259,7 +257,19 @@ export default function FormCadProdutos(props) {
                         </Col>
                         <Col md={{ offset: 1 }}>
                             <Button onClick={() => {
-                                    props.setExibirTabela(true);
+                                if(props.setModoEdicao){
+                                    props.setModoEdicao(false);
+                                    props.setProdutoSelecionado({
+                                        codigo: 0,
+                                        descricao: "",
+                                        precoCusto: 0,
+                                        precoVenda: 0,
+                                        qtdEstoque: 0,
+                                        urlImagem: "",
+                                        dataValidade: ""
+                                    });
+                                }
+                                props.setExibirTabela(true);
                             }}>Voltar</Button>
                         </Col>
                     </Row>

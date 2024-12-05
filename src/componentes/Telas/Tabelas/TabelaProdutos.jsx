@@ -25,6 +25,7 @@ export default function TabelaProdutos(props) {
             despachante(apagarProduto(produto));
         }
     }
+    
     if (estado === ESTADO.PENDENTE){
         return (
             <div>

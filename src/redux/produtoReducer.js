@@ -66,19 +66,19 @@ export const incluirProduto = createAsyncThunk('incluirProduto', async (produto)
             produto.codigo = resultado.codigo;
             return{
                 "status":resultado.status,
-                "mensgem":resultado.mensagem,
+                "mensagem":resultado.mensagem,
                 "produto":produto
             } 
         }else{
             return{
                 "status":resultado.status,
-                "mensgem":resultado.mensagem,
+                "mensagem":resultado.mensagem,
             };
         }
     } catch (error) {
         return{
             "status":false,
-            "mensgem":"Não foi possivel se comunicar com o backend: "+error.message
+            "mensagem":"Não foi possivel se comunicar com o backend: "+error.message
         }
     }
 });
@@ -92,13 +92,13 @@ export const atualizarProduto = createAsyncThunk('atualizarProduto', async (prod
         produto.codigo = resultado.codigo;
         return{
             "status":resultado.status,
-            "mensgem":resultado.mensagem,
+            "mensagem":resultado.mensagem,
             "produto":produto
         }
     } catch (error) {
         return{
             "status":false,
-            "mensgem":"Não foi possivel se comunicar com o backend: "+error.message
+            "mensagem":"Não foi possivel se comunicar com o backend: "+error.message
         }
     }
 });

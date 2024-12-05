@@ -1,7 +1,17 @@
 import { Alert } from "react-bootstrap";
 import FormCadCategorias from "./Formularios/FormCadCategoria";
 import Pagina from "../layouts/Pagina";
+import TabelaCategorias from "./Tabelas/TabelasCategorias";
+import { useState } from "react";
+
 export default function TelaCadastroCategoria(props) {
+    const [exibirTabela, setExibirTabela] = useState(true);
+    const [modoEdicao, setModoEdicao] = useState(false);
+    const [categoriaSelecionada, setCategoriaSelecionada] = useState({
+        codigo:0,
+        descricao:"",
+    });
+
     return (
         <div>
             <Pagina>
@@ -10,7 +20,17 @@ export default function TelaCadastroCategoria(props) {
                         Cadastro de Categoria
                     </h2>
                 </Alert>
-                <FormCadCategorias />
+                {
+                    exibirTabela ?
+                        <TabelaCategorias setExibirTabela={setExibirTabela}
+                                        setModoEdicao={setModoEdicao}
+                                        setCategoriaSelecionada={setCategoriaSelecionada} /> :
+                        <FormCadCategorias setExibirTabela={setExibirTabela}
+                                         categoriaSelecionada={categoriaSelecionada}
+                                         setCategoriaSelecionada={setCategoriaSelecionada}
+                                         modoEdicao={modoEdicao}
+                                         setModoEdicao={setModoEdicao} />
+                }
             </Pagina>
         </div>
     );
