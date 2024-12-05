@@ -1,6 +1,7 @@
 import { Alert, Button, Spinner, Col, Form, InputGroup, Row } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { consultarCategoria } from '../../../servicos/servicoCategoria';
+import { consultarFornecedor } from '../../../servicos/servicoFornecedor';
 import { useSelector,useDispatch } from 'react-redux';
 import { incluirProduto, atualizarProduto } from '../../../redux/produtoReducer';
 import toast, {Toaster} from 'react-hot-toast';
@@ -11,6 +12,8 @@ export default function FormCadProdutos(props) {
     const [formValidado, setFormValidado] = useState(false);
     const [categorias, setCategorias] = useState([]);
     const [temCategorias, setTemCategorias] = useState(false);
+    const [fornecedores, setFornecedores] = useState([]);
+    const [temFornecedor, setTemFornecedor] = useState(false);
     const [mensagemExibida, setMensagemExibida] = useState("");
     const {estado, mensagem} = useSelector((state)=>state.produto);
     const despachante = useDispatch();
@@ -34,11 +37,34 @@ export default function FormCadProdutos(props) {
     });
     },[]); //didMount
 
+    useEffect(()=>{
+        consultarFornecedor().then((resultado)=>{
+            if (Array.isArray(resultado)){
+                setFornecedores(resultado);
+                setTemFornecedor(true);
+            }
+            else{
+                toast.error("Não foi possível carregar os fornecedores");
+            }
+        }).catch((erro)=>{
+            setTemFornecedor(false);
+            toast.error("Não foi possível carregar as categorias");
+        });
+        },[]);
+
     function selecionarCategoria(evento){
     setProduto({...produto, 
                     categoria:{
                     codigo: evento.currentTarget.value
                     }});
+    }
+
+    function selecionarFornecedor(evento){
+        setProduto({...produto,
+                    fornecedor:{
+                        codigo: evento.currentTarget.value
+                    }
+        });
     }
 
     function manipularSubmissao(evento) {
@@ -247,6 +273,28 @@ export default function FormCadProdutos(props) {
                         <Form.Group as={Col} md={1}>
                             {
                                 !temCategorias ? <Spinner className='mt-4' animation="border" variant="success" />
+                                : ""
+                            }
+                        </Form.Group>
+                    </Row>
+                    <Row>
+                        <Form.Group as={Col} md={7}>
+                            <Form.Label>Fornecedor:</Form.Label>
+                            <Form.Select id='fornecedor' 
+                                name='fornecedor'
+                                onChange={selecionarFornecedor}>
+                                {// criar em tempo de execução as fornecedor existentes no banco de dados
+                                    fornecedores.map((fornecedor) =>{
+                                        return <option value={fornecedor.codigo}>
+                                                    {fornecedor.nome}
+                                                </option>
+                                    })
+                                }
+                            </Form.Select>
+                        </Form.Group>
+                        <Form.Group as={Col} md={1}>
+                            {
+                                !temFornecedor ? <Spinner className='mt-4' animation="border" variant="success" />
                                 : ""
                             }
                         </Form.Group>

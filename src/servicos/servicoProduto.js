@@ -1,4 +1,4 @@
-const urlBase = 'backend-lp-2-seven.vercel.app/produtos';
+const urlBase = 'backend-lp-2.vercel.app/produtos';
 
 
 export async function gravarProduto(produto){

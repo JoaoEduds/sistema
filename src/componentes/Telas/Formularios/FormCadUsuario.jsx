@@ -46,7 +46,7 @@ export default function FormCadUsuario(props) {
                 setMensagemExibida(mensagem);
                 setTimeout(()=>{
                     setMensagemExibida("");
-                    setProduto({
+                    setUsuario({
                         codigo:0,
                         nome:"",
                         senha:"",
@@ -192,9 +192,10 @@ export default function FormCadUsuario(props) {
                                 if(props.setModoEdicao){
                                     props.setModoEdicao(false);
                                     props.setUsuarioSelecionado({
+                                        codigo:0,
                                         nome:"",
                                         senha:"",
-                                        email:"",
+                                        email:""
                                     });
                                 }
                                 props.setExibirTabela(true)

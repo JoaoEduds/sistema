@@ -1,5 +1,5 @@
 import { Alert } from "react-bootstrap";
-import CadPrivilegio from "./Cadastros/CadPrivilegio";
+import CadPrivilegio from "./Formularios/CadPrivilegio";
 import Pagina from "../layouts/Pagina";
 import TabelaPrivilegio from "./Tabelas/TabelaPrivilegio";
 import { useState } from "react";

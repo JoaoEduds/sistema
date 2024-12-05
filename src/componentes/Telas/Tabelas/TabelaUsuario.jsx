@@ -54,7 +54,7 @@ export default function TabelaUsuario(props) {
                         <th>Código</th>
                         <th>Nome</th>
                         <th>E-mail</th>
-                        <th>Tipo</th>
+                        <th>Acessos</th>
                         <th>Ações</th>
                     </thead>
                     <tbody>

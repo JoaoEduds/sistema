@@ -8,14 +8,15 @@ import TelaMenu from "./componentes/Telas/TelaMenu";
 import Tela404 from "./componentes/Telas/Tela404";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import TelaLogin from "./componentes/Telas/TelaLogin";
-import { useState, createContext } from 'react';
+import { useState, createContext, useSelector } from 'react';
 import store from "./redux/store";
 import { Provider } from "react-redux";
 
 export const ContextoUsuario = createContext();
 
 function App() {
-
+  const [liberado, setLiberado] = useState(false);
+  const listaDeUsuarios = useSelector((state) => state.usuario.listaDeUsuarios);
   const [usuario, setUsuario] = useState({
     "usuario": "",
     "logado": false
@@ -29,6 +30,15 @@ function App() {
     );
   }
   else {
+    const usuarioEncontrado = listaDeUsuarios.find(
+      (user) => user.nome === usuario);
+    if(usuarioEncontrado.privilegio.nome != "basico"){
+        setLiberado(true);
+    }else{
+      if(usuario = "admin"){
+        setLiberado(true);
+      }
+    }
     return (
       <div className="App">
         <Provider store={store}>
@@ -41,7 +51,7 @@ function App() {
                 <Route path="/categoria" element={<TelaCadastroCategoria />} />
                 <Route path="/cliente" element={<TelaCadastroCliente />}/>
                 <Route path="/fornecedor" element={<TelaCadastroFornecedor/>} />
-                <Route path="/usuario" element={<TelaCadastroUsuario/>} />
+                <Route disabled={!liberado} path="/usuario" element={<TelaCadastroUsuario/>} />
                 <Route path="/privilegio" element={<TelaCadastroPrivilegio/>} />
                 <Route path="/" element={<TelaMenu />} />
                 <Route path="*" element={<Tela404 />} />

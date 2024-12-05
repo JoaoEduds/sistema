@@ -1,63 +1,64 @@
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Row from 'react-bootstrap/Row';
-import { useState } from 'react';
+import { Alert, Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
+import { useSelector,useDispatch } from 'react-redux';
+import { incluirFornecedor, atualizarFornecedor } from '../../../redux/fornecedorReducer';
+import toast, {Toaster} from 'react-hot-toast';
+import ESTADO from '../../../redux/estados';
 
 export default function FormCadFornecedor(props) {
+    
     const [fornecedor, setFornecedor] = useState(props.fornecedorSelecionado);
-    const [formValidade, setFormValidade] = useState(false);
-    function manipularSubmissao(evento){
+    const [formValidado, setFormValidado] = useState(false);
+    const [mensagemExibida, setMensagemExibida] = useState("");
+    const {estado, mensagem} = useSelector((state)=>state.fornecedor);
+    const despachante = useDispatch();
+    
+    function manipularSubmissao(evento) {
         const form = evento.currentTarget;
-        if (form.checkValidity()){
-            
-            if (!props.modoEdicao){
-                //cadastrar o produto
-                props.setListaDeFornecedores([...props.listaDeFornecedores, fornecedor]);
-                //exibir tabela com o produto incluído
-                props.setExibirTabela(true);
+        if (form.checkValidity()) {
+            if (!props.modoEdicao) {
+                despachante(incluirFornecedor(fornecedor));
+                setMensagemExibida(mensagem);
+                setTimeout(()=>{
+                    setMensagemExibida("");
+                    setFornecedor({
+                        codigo:0,
+                        nome:"",
+                        cnpj:"",
+                        bairro:"",
+                        cidade:"",
+                        endereco:"",
+                        cep:"",
+                        tel:"",
+                        email:""
+                    });
+                },5000);
             }
-            else{
-                //editar o produto
-                /*altera a ordem dos registros
-                props.setListaDeProdutos([...props.listaDeProdutos.filter(
-                    (item) => {
-                        return item.codigo !== produto.codigo;
-                    }
-                ), produto]);*/
-
-                //não altera a ordem dos registros
-                props.setListaDeFornecedores(props.listaDeFornecedores.map((item) => {
-                    if (item.cnpj !== fornecedor.cnpj)
-                        return item
-                    else
-                        return fornecedor
-                }));
-
-                //voltar para o modo de inclusão
-                props.setModoEdicao(false);
-                props.setFornecedorSelecionado({
-                    nome:"",
-                    cnpj:"",
-                    bairro:"",
-                    cidade:"",
-                    rua:"",
-                    num:"0",
-                    cep:"",
-                    tel:"",
-                    email:""
-                });
-                props.setExibirTabela(true);
+            else {
+                despachante(atualizarFornecedor(fornecedor));
+                setMensagemExibida(mensagem);
+                setTimeout(()=>{
+                    setMensagemExibida("");
+                    props.setModoEdicao(false);
+                    props.setFornecedorSelecionado({
+                        codigo:0,
+                        nome:"",
+                        cnpj:"",
+                        bairro:"",
+                        cidade:"",
+                        endereco:"",
+                        cep:"",
+                        tel:"",
+                        email:""
+                    });
+                    props.setExibirTabela(true);
+                },3000);
             }
-
-        }
-        else{
-            setFormValidade(true);
+        }else {
+            setFormValidado(true);
         }
         evento.preventDefault();
         evento.stopPropagation();
-
     }
 
     function manipularMudanca(evento){
@@ -127,25 +128,12 @@ export default function FormCadFornecedor(props) {
 
                 <Row className="mb-4">
                     <Form.Group as={Col} md="6" controlId="validationFormik04">
-                        <Form.Label>Rua:</Form.Label>
+                        <Form.Label>Endereço:</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Rua"
-                            name="rua"
-                            value={fornecedor.rua}
-                            onChange={manipularMudanca}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                        </Form.Control.Feedback>
-                    </Form.Group>
-
-                    <Form.Group as={Col} md="3" controlId="validationFormik04">
-                        <Form.Label>Número Endereço:</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Número"
-                            name="num"
-                            value={fornecedor.num}
+                            placeholder="endereco"
+                            name="endereco"
+                            value={fornecedor.endereco}
                             onChange={manipularMudanca}
                         />
                         <Form.Control.Feedback type="invalid">
@@ -201,7 +189,21 @@ export default function FormCadFornecedor(props) {
                     </Col>
                     <Col md={{offset:1}}> 
                         <Button onClick={() => {
-                            props.setExibirTabela(true)
+                            if(props.setModoEdicao){
+                                props.setModoEdicao(false);
+                                props.setFornecedorSelecionado({
+                                    codigo:0,
+                                    nome:"",
+                                    cnpj:"",
+                                    bairro:"",
+                                    cidade:"",
+                                    endereco:"",
+                                    cep:"",
+                                    tel:"",
+                                    email:""
+                                });
+                            }
+                            props.setExibirTabela(true);
                         }}>Voltar</Button>
                     </Col>
                 </Row>

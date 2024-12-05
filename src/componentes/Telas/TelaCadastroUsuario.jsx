@@ -1,5 +1,5 @@
 import { Alert } from "react-bootstrap";
-import FormCadUsuario from "./Cadastros/FormCadUsuario";
+import FormCadUsuario from "./Formularios/FormCadUsuario";
 import Pagina from '../layouts/Pagina'
 import { useState } from "react";
 import TabelaUsuario from "./Tabelas/TabelaUsuario";
