@@ -119,7 +119,7 @@ const categoriaReducer = createSlice({
         })
         .addCase(buscarCategoria.rejected, (state, action) =>{
             state.estado=ESTADO.ERRO;
-            state.mensagem = action.payload.mensagem;
+            state.mensagem = action.error?.message || "Erro inesperado ao buscar categoria.";
             state.listaDeCategorias=action.payload.listaDeCategorias;
         })
         .addCase(apagarCategoria.pending, (state,action) =>{
@@ -137,7 +137,7 @@ const categoriaReducer = createSlice({
         })
         .addCase(apagarCategoria.rejected,(state,action)=>{
             state.estado=ESTADO.ERRO;
-            state.mensagem=action.payload.mensagem;
+            state.mensagem=action.error?.message || "Erro inesperado ao apagar categoria.";
         })
         .addCase(incluirCategoria.pending,(state,action)=>{
             state.estado=ESTADO.PENDENTE;
@@ -155,7 +155,7 @@ const categoriaReducer = createSlice({
         })
         .addCase(incluirCategoria.rejected,(state,action)=>{
             state.estado=ESTADO.ERRO;
-            state.mensagem=action.payload.mensagem;
+            state.mensagem=action.error?.message || "Erro inesperado ao incluir.";
         })
         .addCase(atualizarCategoria.pending,(state,action)=>{
             state.estado=ESTADO.PENDENTE;
@@ -173,7 +173,7 @@ const categoriaReducer = createSlice({
         })
         .addCase(atualizarCategoria.rejected,(state,action)=>{
             state.estado=ESTADO.ERRO;
-            state.mensagem=action.payload.mensagem;
+            state.mensagem=action.error?.message || "Erro inesperado atualizar categoria.";
         })
     }
 });

@@ -130,7 +130,7 @@ const produtoReducer = createSlice({
         })
         .addCase(buscarProdutos.rejected, (state, action) =>{
             state.estado=ESTADO.ERRO;
-            state.mensagem = action.payload.mensagem;
+            state.mensagem = action.error?.message || "Erro inesperado";
             state.listaDeProdutos=action.payload.listaDeProdutos;
         })
         .addCase(apagarProduto.pending, (state,action) =>{
@@ -148,7 +148,7 @@ const produtoReducer = createSlice({
         })
         .addCase(apagarProduto.rejected,(state,action)=>{
             state.estado=ESTADO.ERRO;
-            state.mensagem=action.payload.mensagem;
+            state.mensagem=action.error?.message || "Erro inesperado";
         })
         .addCase(incluirProduto.pending,(state,action)=>{
             state.estado=ESTADO.PENDENTE;
@@ -166,7 +166,7 @@ const produtoReducer = createSlice({
         })
         .addCase(incluirProduto.rejected,(state,action)=>{
             state.estado=ESTADO.ERRO;
-            state.mensagem=action.payload.mensagem;
+            state.mensagem=action.error?.message || "Erro inesperado";
         })
         .addCase(atualizarProduto.pending,(state,action)=>{
             state.estado=ESTADO.PENDENTE;
@@ -182,7 +182,7 @@ const produtoReducer = createSlice({
             }
         }).addCase(atualizarProduto.rejected,(state,action)=>{
             state.estado=ESTADO.ERRO;
-            state.mensagem=action.payload.mensagem;
+            state.mensagem=action.error?.message || "Erro inesperado.";
         })
     }
 });
